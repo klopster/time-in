@@ -1,0 +1,64 @@
+ActiveAdmin.register Contract do
+	menu parent: 'Employees'
+ permit_params :title, :group, :employee_id, :pay_per_hour, :is_activ, :since, :up_to
+
+  index do
+    selectable_column
+    id_column
+    column :employee
+    column :group
+    column :pay_per_hour
+    column :since
+    column :up_to
+    column :is_activ
+    actions
+  	
+
+  end
+	
+	
+	
+	
+	
+  filter :group
+  filter :is_activ
+  filter :since
+  filter :up_to 
+
+ form title: 'Employee details' do |f|
+    inputs 'Details' do
+			input :employee    
+      input :group, label: "Craftmanship"
+      input :since, label: "Contract start at "
+      li "Start at #{f.object.since}" unless f.object.new_record?
+      input :up_to, label: "Contract up to"
+      li "Up to #{f.object.up_to}" unless f.object.new_record?
+    end
+    inputs 'Contract setup' do
+      input :is_activ, label: "Contract is active?"
+      input :pay_per_hour, label: "Salary per hour"
+    end
+    
+    para "Press cancel to return to the list without saving."
+    actions
+  end
+  
+
+#end of class
+end
+
+
+# See permitted parameters documentation:
+# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
+#
+# permit_params :list, :of, :attributes, :on, :model
+#
+# or
+#
+# permit_params do
+#   permitted = [:permitted, :attributes]
+#   permitted << :other if params[:action] == 'create' && current_user.admin?
+#   permitted
+# end
+
+

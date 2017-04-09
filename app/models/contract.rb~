@@ -1,0 +1,5 @@
+class Contract < ApplicationRecord
+belongs_to :employee
+
+ validates :employee_id, :group, :is_activ, :since, :up_to, :pay_per_hour, presence: true
+end
