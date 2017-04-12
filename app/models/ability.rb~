@@ -11,8 +11,9 @@ class Ability
    	can :read, ActiveAdmin::Page, name: "Dashboard"
 	else	
     can :read, Project
-    can :read, Task	
-    can :manage, Employee , id: employee.id
+    can :read, Task
+    can :read, Employee	
+    can :update, Employee , id: employee.id
     can :read, ActiveAdmin::Page, name: "Dashboard"
   end 
     

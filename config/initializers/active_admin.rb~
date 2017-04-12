@@ -236,10 +236,10 @@ ActiveAdmin.setup do |config|
   timein.build_menu do |menu|
     menu.add label: 'Employees', priority: 1 do |item|
     item.add label: "Employees"
-    item.add label: "Contracts"
+    item.add label: "Craftmanship"
     end
   end
-end
+  end
   # == Download Links
   #
   # You can disable download links on resource listing pages,

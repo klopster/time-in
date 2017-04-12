@@ -7,6 +7,7 @@ class Ability
    	can :manage, Project
    	can :manage, Task
    	can :manage, Employee
+   	can :manage, Craftmanship
    	can :manage, ActiveAdmin::Comment
    	can :read, ActiveAdmin::Page, name: "Dashboard"
 	else	

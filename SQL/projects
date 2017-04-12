@@ -1,0 +1,5 @@
+SELECT `projects`.`id`,
+    `projects`.`title`,
+    `projects`.`created_at`,
+    `projects`.`updated_at`
+FROM `timein_development`.`projects`;

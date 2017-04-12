@@ -232,14 +232,14 @@ ActiveAdmin.setup do |config|
   #       menu.add label: "My Great Website", url: "http://www.mygreatwebsite.com", html_options: { target: :blank }
   #     end
   #   end
-	#config.namespace :timein do |timein|
-  #timein.build_menu do |menu|
-  #  menu.add label: 'Employees', priority: 1 do |item|
-  #  item.add label: "Employees"
-  #  item.add label: "Contracts"
-  #  end
-  #end
-  #end
+	config.namespace :timein do |timein|
+  timein.build_menu do |menu|
+    menu.add label: 'Employees', priority: 1 do |item|
+    item.add label: "Employees"
+    item.add label: "Craftmanships"
+    end
+  end
+  end
   # == Download Links
   #
   # You can disable download links on resource listing pages,

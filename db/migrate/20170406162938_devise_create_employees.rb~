@@ -17,9 +17,9 @@ class DeviseCreateEmployees < ActiveRecord::Migration[5.0]
 			#my adds
 			t.string :employee_name, null: false, default: ""
 			t.boolean :admin, null: false, default: false
-			t.string :group
-			t.datetime :since
-			t.datetime :up_to
+		  t.belongs_to :craftmanships, index: true 
+			t.date :since
+			t.date :up_to
 			t.boolean :is_activ, null: false, default: false
 			t.integer :pay_per_hour
 			

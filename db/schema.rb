@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406162938) do
+ActiveRecord::Schema.define(version: 20170410164656) do
 
   create_table "active_admin_comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "namespace"
@@ -26,6 +26,19 @@ ActiveRecord::Schema.define(version: 20170406162938) do
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
   end
 
+  create_table "craftmanships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "craftmanships_projects", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "craftmanship_id", null: false
+    t.integer "project_id",      null: false
+    t.index ["craftmanship_id", "project_id"], name: "index_craftmanships_projects_on_craftmanship_id_and_project_id", using: :btree
+    t.index ["project_id", "craftmanship_id"], name: "index_craftmanships_projects_on_project_id_and_craftmanship_id", using: :btree
+  end
+
   create_table "employees", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "username",               default: "",    null: false
     t.string   "email",                  default: "",    null: false
@@ -35,15 +48,23 @@ ActiveRecord::Schema.define(version: 20170406162938) do
     t.datetime "remember_created_at"
     t.string   "employee_name",          default: "",    null: false
     t.boolean  "admin",                  default: false, null: false
-    t.string   "group"
+    t.integer  "craftmanship_id"
     t.date     "since"
     t.date     "up_to"
     t.boolean  "is_activ",               default: false, null: false
     t.integer  "pay_per_hour"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.index ["craftmanship_id"], name: "index_employees_on_craftmanship_id", using: :btree
     t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true, using: :btree
     t.index ["username"], name: "index_employees_on_username", unique: true, using: :btree
+  end
+
+  create_table "employees_tasks", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "employee_id", null: false
+    t.integer "task_id",     null: false
+    t.index ["employee_id", "task_id"], name: "index_employees_tasks_on_employee_id_and_task_id", using: :btree
+    t.index ["task_id", "employee_id"], name: "index_employees_tasks_on_task_id_and_employee_id", using: :btree
   end
 
   create_table "projects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -54,12 +75,11 @@ ActiveRecord::Schema.define(version: 20170406162938) do
 
   create_table "tasks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "project_id"
-    t.integer  "employee_id"
     t.string   "title"
-    t.boolean  "is_done"
+    t.boolean  "is_done",    default: false
     t.date     "due_date"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
 end
