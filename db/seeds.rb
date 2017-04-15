@@ -21,14 +21,27 @@ Employee.create!(username: 'kokot',
 								 password_confirmation: 'kokoko', 
 								 employee_name: 'Kokoto Veliky', 
 								 admin: false, 
-								 is_activ: false,
+								 is_activ: true,
 								 pay_per_hour: 100,
-								 craftmanship_id: 0)
+								 craftmanship_id: 2)
+
+Employee.create!(username: 'bohous',
+								 email: 'bohous@mail.net',
+								 password: 'bohous', 
+								 password_confirmation: 'bohous', 
+								 employee_name: 'Bohusu Koprdelnik', 
+								 admin: false, 
+								 is_activ: true,
+								 pay_per_hour: 120,
+								 craftmanship_id: 3)
 	
 
 Craftmanship.create!(title: "administrators" )
 Craftmanship.create!(title: "builders" )
 Craftmanship.create!(title: "foresters" )
 
+Project.create!(title: "Construction projects")
+Project.create!(title: "Forest projects")
+Project.create!(title: "Other projects")
 
 					

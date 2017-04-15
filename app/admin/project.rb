@@ -36,17 +36,20 @@ index do
   end
   
   column 'Craftmanship' do |project|
-    	project.craftmanships.map(&:title).join("<br />").html_safe 	
+    	project.craftmanships.pluck(:title).join("<br />").html_safe 	
     	end
       
   column "Tasks" do |project|
     project.tasks.count
   end
-#maybe later  
-#  column "Employees" do |task|
-#   task.tasks.employee.count
-#  end 
-
+  
+   
+  column "Comments" do |project|
+ 	
+ 	status_tag (project.comments.where(resource: project).any? ? project.comments.where(resource: project).count : "0"), (project.comments.where(resource: project).any? ? :ok : :error)
+  end
+  
+  	
 	column "" do |project|
 		link_to 'New task..', new_timein_task_path( task: { project_id: project.id })
 		end	
@@ -61,8 +64,8 @@ filter :craftmanships
 
 
 show title: :title do
-		
-  panel "Tasks" do
+	tabs do	
+   tab "Tasks" do
     table_for project.tasks do |t|
       t.column("Status") { |task| status_tag (task.is_done ? "Done" : "Pending"), (task.is_done ? :ok : :error) }
       t.column("Title") { |task| link_to task.title, timein_task_path(task) }
@@ -71,7 +74,10 @@ show title: :title do
       t.column("Due Date") { |task| task.due_date? ? l(task.due_date, :format => :long) : '-' }
     end
   end
-	
+		tab "comments" do
+		active_admin_comments
+		end
+	end
 end
 
  

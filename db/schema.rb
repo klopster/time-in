@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170410164656) do
+ActiveRecord::Schema.define(version: 20170413085939) do
 
   create_table "active_admin_comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "namespace"
@@ -60,11 +60,14 @@ ActiveRecord::Schema.define(version: 20170410164656) do
     t.index ["username"], name: "index_employees_on_username", unique: true, using: :btree
   end
 
-  create_table "employees_tasks", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "employee_id", null: false
-    t.integer "task_id",     null: false
-    t.index ["employee_id", "task_id"], name: "index_employees_tasks_on_employee_id_and_task_id", using: :btree
-    t.index ["task_id", "employee_id"], name: "index_employees_tasks_on_task_id_and_employee_id", using: :btree
+  create_table "hours", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "employee_id"
+    t.integer  "task_id"
+    t.integer  "hours",       default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["employee_id"], name: "index_hours_on_employee_id", using: :btree
+    t.index ["task_id"], name: "index_hours_on_task_id", using: :btree
   end
 
   create_table "projects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

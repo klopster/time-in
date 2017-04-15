@@ -3,7 +3,7 @@ ActiveAdmin.register Task do
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
-permit_params :project_id, :title, :is_done, :due_date, employee_ids:[]
+permit_params :project_id, :title, :is_done, :due_date, :employee, employee_ids:[]
 
 #filter :employee, collection: proc { Employee.pluck(:email, :id)}
 
@@ -14,6 +14,11 @@ config.clear_action_items!
 action_item :new_task do
 link_to 'New task', timein_projects_path
 end
+
+action_item :edit_task, only: :show do
+link_to 'Edit task', edit_timein_task_path(task)
+end
+
  
   
 
@@ -32,47 +37,108 @@ end
 #  	tasks.employees.where( employee_id: current_employee.id)
 #end
 
+batch_action "Task status ", form: { select: [['Done',1],['Pending',0]] } do |ids, inputs|
+					 Task.where(id: ids).update_all(is_done: inputs[:select])
+					 redirect_to collection_path, notice: "Status updated successfully"
+					  end
+
+
 
 index do
     selectable_column
     id_column
-    column :title
+    column 'Title' do |task|
+    link_to task.title,edit_timein_task_path(task)
+    	end 
     column 'Employees' do |task|
-    	
-    	task.employee.map(&:employee_name).join("<br />").html_safe
+    	task.employees.pluck(:employee_name).join("<br />").html_safe
     	end
-    column :project
-#    column 'Craftmanship' do |task|
-#    	task.project.craftmanships.map(&:title).join("<br />").html_safe 	
-#    	end
-    column :is_done
+    column 'Hours' do |task|
+    #	task.hours.map(&:hours).join().html_safe
+     task.hours.sum {|h| h[:hours]}	
+    	end    
+    column 'Project', :project
+
+    column 'Finished?' do |task|
+      status_tag (task.is_done ? "Done" : "Pending"), (task.is_done ? :ok : :error) 
+    	end	
+    column "Notes" do |task|
+ 	status_tag (task.comments.where(resource: task).any? ? task.comments.where(resource: task).count : "0"), (task.comments.where(resource: task).any? ? :ok : :error)
+  end
+           
     column :due_date
     
-    actions 
+    actions defaults: false do |task|
+      
+    	#link_to (fa_icon "edit 2x"), timein_task_path(task.id)  
+    	#link_to (fa_icon "setting 2x"), edit_timein_task_path(task.id)
+    	 [
+            link_to((fa_icon "edit 2x"), timein_task_path(task.id)),
+            '  ',
+            link_to((fa_icon "cog 2x"), edit_timein_task_path(task.id)),
+            '  ',
+            link_to((fa_icon "trash-o 2x"), timein_task_path(task.id), method: :delete, data:{confirm: "Are you sure?"})
+        ].reduce(:+).html_safe
+    	end
+    	
+    
    
   	
 
   end
 filter :title
-filter :employee
+filter :employees
 filter :project
 filter :is_done
 filter :due_date
 
 show do
- 
-  panel "Task Details" do
+  tabs do
+  
+  tab "Task Details" do
     attributes_table_for task do
       row("Status") { status_tag (task.is_done ? "Done" : "Pending"), (task.is_done ? :ok : :error) }
       row("Title") { task.title }
       row("Project") { link_to task.project.title, timein_project_path(task.project) }
-#      row("Assigned To") { link_to task.employee.employee_name, timein_employee_path(task.employee) }
+      row("Assigned To") { task.project.craftmanships.pluck(:title).join("<br />").html_safe}
+      
+       #, timein_employee_path(:employee_name)}
       row("Due Date") { task.due_date? ? l(task.due_date, :format => :long) : '-' } 
     end
   end
- 
-  active_admin_comments
+  
+  tab "Employees" do
+  	
+  	 	table_for task.employees do |employee|
+      column :employee_name
+      column :craftmanship
+      column :hours {|employee| employee.hours.where(task_id: task.id).sum {|h| h[:hours]}	}
+      	end
+		#end of tab
+  end
+  
+  tab "Comments" do
+  		active_admin_comments
+	#end of tab
+	end
+	#end of tabs
+	end
+	
+	
+	
 end
+
+ sidebar "Time entry:",only: :show do
+	if current_employee.tasks.find_by(id: task.id).present?
+	render partial: "hours/show_form",locals: {task: task}
+	else
+	panel "No time entry for current user in this task"
+	end
+	end
+	
+
+
+
 
 sidebar "Other Tasks For This User", :only => :show do
   table_for current_employee.tasks.where(:project_id => task.project) do |t|
@@ -85,38 +151,46 @@ end
 
 
 
-
+   
 
 
 form title: 'Task details' do |f|
-    inputs 'About task' do
+    
+    tabs do 
+     tab "Task" do     
+    inputs 'About' do
     	input :title, label: "Task title:"
     	input :project_id, as: :hidden
-      end
+      				end
       inputs	'Employees for this task' do	
       task.project.craftmanships.each do |craftmanship|
-      input :employee, label: "Craftmanship:  #{craftmanship.title}",
+      input :employee_ids, label: "Craftmanship:  #{craftmanship.title}",
 													 as: :check_boxes,
 													 collection: craftmanship.employees
-													 end
 													 
-			  
-						
-			end
-			inputs 'Task details' do										 
-			input :due_date
+								 end
+							end
+			inputs 'Task details' do	
+			input :due_date, as: :datepicker, datepicker_options: { min_date: "2013-10-8",        max_date: "+3D" }									 
+			
 			
 			unless task.id.nil?
 			input :is_done, label: "Task is finished?",
 												 as: :boolean
-			end		
-		end	
-		
+								end		
+						 end	
+		end #of tabs 
+    
 		para "Press cancel to return to the list without saving."
     actions
-		end
-		
-
+    end
+    
+    
+    
+    
+    end
+    
+ 
 
 #end of class
 end

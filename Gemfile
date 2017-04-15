@@ -11,6 +11,8 @@ gem 'rails', '~> 5.0.2'
 
 gem 'activeadmin', github: 'activeadmin'
 
+gem 'font-awesome-rails'
+
 gem 'inherited_resources', '~> 1.7'
 
 gem 'devise'

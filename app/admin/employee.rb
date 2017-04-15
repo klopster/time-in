@@ -60,8 +60,12 @@ end
      row("Is user main administrator?") { status_tag (employee.admin ? "Yes" : "Not yet"), (employee.admin ? :ok : :error) }
       end
     end
+  tab "Comments" do
+  	active_admin_comments 
+  	end	
+  
   end 
-  active_admin_comments 
+  
   end
 	
 	 

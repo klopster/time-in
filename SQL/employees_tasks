@@ -1,3 +1,0 @@
-SELECT `employees_tasks`.`employee_id`,
-    `employees_tasks`.`task_id`
-FROM `timein_development`.`employees_tasks`;

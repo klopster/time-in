@@ -5,7 +5,7 @@ permit_params :username,:email,
  							 :employee_name, :craftmanship_id, :admin,
  							 :pay_per_hour, :is_activ,
  							 :since, :up_to 
-parent menu: "Employees"
+menu parent: "Employees"
 
 controller do
   def update	

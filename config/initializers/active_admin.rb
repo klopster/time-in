@@ -292,8 +292,8 @@ ActiveAdmin.setup do |config|
   # By default, the footer shows the current Active Admin version. You can
   # override the content of the footer here.
   #
-   config.footer = 'Time-in app v.1'
-
+   config.footer = 'Time managment app v.0.1'
+  # config.view_factory.footer = 'footer' 	
   # == Sorting
   #
   # By default ActiveAdmin::OrderClause is used for sorting logic
@@ -301,3 +301,5 @@ ActiveAdmin.setup do |config|
   #
   # config.order_clause = MyOrderClause
 end
+
+

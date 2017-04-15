@@ -15,6 +15,8 @@ gem 'inherited_resources', '~> 1.7'
 
 gem 'devise'
 
+gem 'cancancan',            '~> 1.10'
+
 gem 'will_paginate',           '3.1.0'
 
 gem 'bootstrap-will_paginate', '0.0.10'

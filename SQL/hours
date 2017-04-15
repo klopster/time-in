@@ -1,0 +1,9 @@
+SELECT `hours`.`id`,
+    `hours`.`employee_id`,
+    `hours`.`task_id`,
+    `hours`.`hours`,
+	`hours`.`created_at`,
+    `hours`.`updated_at`
+FROM `timein_development`.`hours`;
+
+

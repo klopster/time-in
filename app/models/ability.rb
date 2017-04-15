@@ -8,6 +8,7 @@ class Ability
    	can :manage, Task
    	can :manage, Employee
    	can :manage, Craftmanship
+   	can :manage, Hour
    	can :manage, ActiveAdmin::Comment
    	can :read, ActiveAdmin::Page, name: "Dashboard"
 	else	
@@ -15,6 +16,7 @@ class Ability
     can :read, Task
     can :read, Employee	
     can :update, Employee , id: employee.id
+    can :manage, ActiveAdmin::Comment
     can :read, ActiveAdmin::Page, name: "Dashboard"
   end 
     
