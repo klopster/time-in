@@ -1,0 +1,23 @@
+ActiveAdmin.register Timesheet do
+ permit_params :hours, :sheet_id, :employee_id, :task_id, :date, :note
+ 
+ #rewrite actions to redirect to index
+ controller do
+    def create
+      super do |success,failure|
+      	success.html { redirect_to timein_tasks_path }
+    	end
+    end
+
+   	def update
+    	super do |success,failure|
+      	success.html { redirect_to timein_tasks_path }
+    	end
+  	end
+	
+end
+ 
+ 
+# form title: "Time entry:",partial: "sheets/show_form"
+	
+end

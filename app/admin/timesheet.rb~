@@ -1,7 +1,5 @@
-ActiveAdmin.register Hour do
-
-
- permit_params :hours, :task_id, :employee_ids
+ActiveAdmin.register Timesheet do
+ permit_params :hours, :sheet_id, :employee_id, :task_id, :date, :note
  
  #rewrite actions to redirect to index
  controller do
@@ -20,13 +18,6 @@ ActiveAdmin.register Hour do
 end
  
  
- form title: "Time entry:",partial: "hours/form"
+ form title: "Time entry:",partial: "sheets/show_form"
 	
-	
-						
-					 
-				
-				 
-#end of class
 end
-				 	 

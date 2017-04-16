@@ -1,7 +1,0 @@
- <%= semantic_form_for [:timein,current_employee.hours.find_by(employee_id: current_employee.id)],builder: ActiveAdmin::FormBuilder do |f| %>
-     			<%= f.inputs do %>
-     			 			 			
-     			<%- f.input :hours %>
-     			<%end%>
-     			<%= f.actions %>
-     			<%end%>

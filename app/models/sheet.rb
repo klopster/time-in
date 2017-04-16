@@ -1,0 +1,9 @@
+class Sheet < ApplicationRecord
+belongs_to :task
+belongs_to :employee
+has_many :timesheets
+
+validates :task_id, :employee_id, presence: true
+
+
+end

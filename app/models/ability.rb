@@ -8,13 +8,14 @@ class Ability
    	can :manage, Task
    	can :manage, Employee
    	can :manage, Craftmanship
-   	can :manage, Hour
+   	can :manage, Timesheet
    	can :manage, ActiveAdmin::Comment
    	can :read, ActiveAdmin::Page, name: "Dashboard"
 	else	
     can :read, Project
     can :read, Task
-    can :read, Employee	
+    can :read, Employee
+    can :read, Timesheet	
     can :update, Employee , id: employee.id
     can :manage, ActiveAdmin::Comment
     can :read, ActiveAdmin::Page, name: "Dashboard"

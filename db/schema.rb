@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413085939) do
+ActiveRecord::Schema.define(version: 20170416130145) do
 
   create_table "active_admin_comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "namespace"
@@ -60,20 +60,19 @@ ActiveRecord::Schema.define(version: 20170413085939) do
     t.index ["username"], name: "index_employees_on_username", unique: true, using: :btree
   end
 
-  create_table "hours", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "employee_id"
-    t.integer  "task_id"
-    t.integer  "hours",       default: 0
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.index ["employee_id"], name: "index_hours_on_employee_id", using: :btree
-    t.index ["task_id"], name: "index_hours_on_task_id", using: :btree
-  end
-
   create_table "projects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "sheets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "employee_id"
+    t.integer  "task_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["employee_id"], name: "index_sheets_on_employee_id", using: :btree
+    t.index ["task_id"], name: "index_sheets_on_task_id", using: :btree
   end
 
   create_table "tasks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -83,6 +82,20 @@ ActiveRecord::Schema.define(version: 20170413085939) do
     t.date     "due_date"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+  end
+
+  create_table "timesheets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "sheet_id"
+    t.integer  "employee_id"
+    t.integer  "task_id"
+    t.integer  "hours",                     default: 0
+    t.date     "date"
+    t.text     "note",        limit: 65535
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.index ["employee_id"], name: "index_timesheets_on_employee_id", using: :btree
+    t.index ["sheet_id"], name: "index_timesheets_on_sheet_id", using: :btree
+    t.index ["task_id"], name: "index_timesheets_on_task_id", using: :btree
   end
 
 end

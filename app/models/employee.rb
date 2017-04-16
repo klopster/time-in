@@ -1,6 +1,7 @@
 class Employee < ApplicationRecord
-  has_many :hours
-  has_many :tasks, through: :hours
+  has_many :sheets
+  has_many :tasks, through: :sheets
+  has_many :timesheets
   belongs_to :craftmanship
   
   # Include default devise modules. Others available are:

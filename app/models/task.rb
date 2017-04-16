@@ -1,8 +1,9 @@
 class Task < ApplicationRecord
  belongs_to :project
   
- has_many :hours
- has_many :employees, through: :hours 
+ has_many :sheets
+ has_many :employees, through: :sheets
+ has_many :timesheets 
   
   
 has_many :active_admin_comments, as: :resource, class_name: 'ActiveAdmin::Comment'

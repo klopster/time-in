@@ -1,5 +1,6 @@
 class Employee < ApplicationRecord
-  has_and_belongs_to_many :tasks
+  has_many :sheets
+  has_many :tasks, through: :sheets
   belongs_to :craftmanship
   
   # Include default devise modules. Others available are:

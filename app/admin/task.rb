@@ -19,8 +19,6 @@ action_item :edit_task, only: :show do
 link_to 'Edit task', edit_timein_task_path(task)
 end
 
- 
-  
 
 
 
@@ -54,8 +52,8 @@ index do
     	task.employees.pluck(:employee_name).join("<br />").html_safe
     	end
     column 'Hours' do |task|
-    #	task.hours.map(&:hours).join().html_safe
-     task.hours.sum {|h| h[:hours]}	
+    	task.timesheets.where(task_id: task.id).sum(:hours)
+        	
     	end    
     column 'Project', :project
 
@@ -112,7 +110,11 @@ show do
   	 	table_for task.employees do |employee|
       column :employee_name
       column :craftmanship
-      column :hours {|employee| employee.hours.where(task_id: task.id).sum {|h| h[:hours]}	}
+ #     column :hours {|employee| employee.sheets.where(task_id: task.id).sum {|h| h[:hours]}	}
+ 			column 'Hours' do |employee|
+    	employee.timesheets.where(task_id: task.id).sum(:hours)
+        	
+    	end    
       	end
 		#end of tab
   end
@@ -129,11 +131,17 @@ show do
 end
 
  sidebar "Time entry:",only: :show do
+	
 	if current_employee.tasks.find_by(id: task.id).present?
-	render partial: "hours/show_form",locals: {task: task}
+#	mistrovský kousek tahle associace..zhruba tak dva dny :-)
+	render partial: "sheets/show_form", for: sheet= task.sheets.find_by(employee_id: current_employee.id) ,locals: {sheet: sheet.timesheets.build(sheet_id: sheet.id,employee_id: sheet.employee_id,task_id: sheet.task_id)} 
+	
+	
+	
 	else
 	panel "No time entry for current user in this task"
 	end
+	
 	end
 	
 
@@ -171,7 +179,7 @@ form title: 'Task details' do |f|
 								 end
 							end
 			inputs 'Task details' do	
-			input :due_date, as: :datepicker, datepicker_options: { min_date: "2013-10-8",        max_date: "+3D" }									 
+			input :due_date, as: :datepicker, datepicker_options: { show_week: true, first_day: 1 ,dateFormat: 'DD, dd-MM-y',setDate: '0'}								 
 			
 			
 			unless task.id.nil?

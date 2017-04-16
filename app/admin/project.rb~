@@ -36,7 +36,7 @@ index do
   end
   
   column 'Craftmanship' do |project|
-    	project.craftmanships.map(&:title).join("<br />").html_safe 	
+    	project.craftmanships.pluck(:title).join("<br />").html_safe 	
     	end
       
   column "Tasks" do |project|
@@ -50,11 +50,19 @@ index do
   end
   
   	
-	column "" do |project|
-		link_to 'New task..', new_timein_task_path( task: { project_id: project.id })
+	column "New task" do |project|
+		link_to (fa_icon "edit 2x"), new_timein_task_path( task: { project_id: project.id })
 		end	
 		
-  actions
+  actions defaults: false do |task|
+       [
+            link_to((fa_icon "question-circle 2x"), timein_task_path(task.id)),
+            '  ',
+            link_to((fa_icon "cog 2x"), edit_timein_task_path(task.id)),
+            '  ',
+            link_to((fa_icon "trash-o 2x"), timein_task_path(task.id), method: :delete, data:{confirm: "Are you sure?"})
+        ].reduce(:+).html_safe
+    	end
 end
  
 # Filter only by title

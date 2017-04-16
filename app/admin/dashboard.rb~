@@ -35,9 +35,9 @@ ActiveAdmin.register_page "Dashboard" do
      panel "All your pending tasks " do
     table_for current_employee.tasks.where('is_done'==0) do |t|    
       t.column("Title") { |task| link_to task.title, timein_task_path(task) }
-      t.column("Do it with:") { |task| task.employees.map(&:employee_name).join('</br>').html_safe }
+      t.column("Do it with:") { |task| task.employees.pluck(:employee_name).join('</br>').html_safe }
    #   Activity.joins(:location).where(locations: { country: "Australia" })
-      t.column("Hours:") {|task| task.hours.where(employee_id: current_employee.id).map(&:hours).join("</br>").html_safe}
+      t.column("Hours:") {|task| task.sheets.where(employee_id: current_employee.id).sum{|h| h[:hours]}
       t.column("Due Date") { |task| task.due_date? ? l(task.due_date, :format => :long) : '-' } 
       
       t.column("Input:") { |task| link_to (fa_icon "edit 2x"), timein_task_path(task.id) }

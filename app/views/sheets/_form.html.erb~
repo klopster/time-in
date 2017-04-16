@@ -1,0 +1,9 @@
+
+ <%= semantic_form_for [:timein,sheet],builder: ActiveAdmin::FormBuilder do |f| %>
+     			<%= f.inputs do %>
+     			<%= f.input :task, as: :radio  %> 
+    			 			 			
+     			<%= f.input :hours%>
+     			<%end%>
+     			<%= f.actions %>
+     			<%end%>

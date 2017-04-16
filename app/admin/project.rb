@@ -50,11 +50,19 @@ index do
   end
   
   	
-	column "" do |project|
-		link_to 'New task..', new_timein_task_path( task: { project_id: project.id })
+	column "New task" do |project|
+		link_to (fa_icon "edit 2x"), new_timein_task_path( task: { project_id: project.id })
 		end	
 		
-  actions
+  actions defaults: false do |project|
+       [
+            link_to((fa_icon "question-circle 2x"), timein_project_path(project.id)),
+            '  ',
+            link_to((fa_icon "cog 2x"), edit_timein_project_path(project.id)),
+            '  ',
+            link_to((fa_icon "trash-o 2x"), timein_project_path(project.id), method: :delete, data:{confirm: "Are you sure?"})
+        ].reduce(:+).html_safe
+    	end
 end
  
 # Filter only by title

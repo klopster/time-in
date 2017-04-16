@@ -202,7 +202,7 @@ ActiveAdmin.setup do |config|
   #   config.register_stylesheet 'my_print_stylesheet.css', media: :print
   #
   # To load a javascript file:
-  #   config.register_javascript 'my_javascript.js'
+  config.register_javascript '/assets/datepicker_option.js'
 
   # == CSV options
   #
@@ -292,8 +292,8 @@ ActiveAdmin.setup do |config|
   # By default, the footer shows the current Active Admin version. You can
   # override the content of the footer here.
   #
-  #config.footer = 'Time managment app for Holstenshuus'
-   config.view_factory.footer = 'footer' 	
+   config.footer = 'Time managment app v.0.1'
+  # config.view_factory.footer = 'footer' 	
   # == Sorting
   #
   # By default ActiveAdmin::OrderClause is used for sorting logic

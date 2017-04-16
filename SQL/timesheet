@@ -1,0 +1,8 @@
+SELECT `timesheets`.`id`,
+    `timesheets`.`sheet_id`,
+    `timesheets`.`hours`,
+    `timesheets`.`date`,
+    `timesheets`.`note`,
+    `timesheets`.`created_at`,
+    `timesheets`.`updated_at`
+FROM `timein_development`.`timesheets`;
