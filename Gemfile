@@ -28,7 +28,7 @@ gem 'mini_magick',             '4.5.1'
 
 gem 'fog',                     '1.38.0'
 
-gem 'bootstrap-sass',          '3.3.6'
+gem 'bootstrap-sass',          '3.4.1'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
